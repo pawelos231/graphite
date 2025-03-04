@@ -1,6 +1,6 @@
 import { MutableRefObject, Ref } from "react";
 
-export function combineRefs<T extends unknown>(...refs: Ref<T>[]) {
+export function combineRefs<T>(...refs: Ref<T>[]) {
   return (node: T) => {
     for (const ref of refs) {
       if (typeof ref === "function") {

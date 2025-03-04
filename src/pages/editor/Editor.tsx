@@ -22,11 +22,7 @@ export function Editor() {
   const [currentTab, setCurrentTab] = useState<Tab | undefined>(initialTab);
 
   const handleTabChange = (newTab: Tab) => {
-    if (currentTab === newTab) {
-      setCurrentTab(undefined);
-    } else {
-      setCurrentTab(newTab);
-    }
+    setCurrentTab(currentTab === newTab ? undefined : newTab);
   };
 
   return (

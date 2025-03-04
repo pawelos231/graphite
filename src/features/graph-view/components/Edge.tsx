@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { useRef } from "react";
 import colors from "tailwindcss/colors";
 import { cn } from "~/lib/utils";

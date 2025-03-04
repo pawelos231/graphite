@@ -15,7 +15,7 @@ export const useResizeObserver = (ref: RefObject<HTMLElement>): DOMRect => {
     resizeObserver.observe(element);
 
     return () => resizeObserver.disconnect();
-  }, []);
+  }, [ref]);
 
   return rect;
 };
