@@ -4,12 +4,16 @@ import { Graph } from "~/core/simulator/graph";
 import { Step } from "~/core/simulator/step";
 import { Project, ProjectMetadata } from "~/types/project";
 
+enum ModeType {
+  IDLE = "IDLE",
+  SIMULATION = "SIMULATION",
+}
 type Mode =
   | {
-      type: "IDLE";
+      type: ModeType.IDLE;
     }
   | {
-      type: "SIMULATION";
+      type: ModeType.SIMULATION;
       steps: Step[];
     };
 
@@ -60,7 +64,7 @@ export function createEditorStore({ project }: CreateEditorStoreOpts) {
 
     // mode
     mode: {
-      type: "IDLE",
+      type: ModeType.IDLE,
     },
     setMode: (mode) => {
       set({

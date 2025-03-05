@@ -1,4 +1,4 @@
-import { CommandLineIcon, PlayIcon } from "@heroicons/react/24/outline";
+import { CommandLineIcon, PlayIcon, MoonIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 import { CodeEditor } from "~/features/code-editor/CodeEditor";
 import { DynamicSplit } from "~/shared/layout/Split";
@@ -6,10 +6,14 @@ import { Tab, VerticalTabs } from "~/shared/layout/VerticalTab";
 import { AlgorithmPicker } from "./components/AlgorithmPicker";
 import { Visualizer } from "./components/Visualizer";
 import { EditorStoreProvider } from "./context/editor";
+import { useTheme } from "~/shared/ui/darkmode/theme-provider";
+import DarkModePicker from "./components/DarkModePicker";
 
+//split it into functional tabs (this tabs do not have an element) and into element tabs, ex: ActionTab and ComponentTab
 const tabs: Tab[] = [
   { id: "edit", icon: <CommandLineIcon />, element: <CodeEditor /> },
   { id: "algorithm", icon: <PlayIcon />, element: <AlgorithmPicker /> },
+  { id: "darkMode", icon: <MoonIcon />, element: <DarkModePicker /> },
 ];
 
 // The CodeEditor component is responsible for setting the graph value,
@@ -20,6 +24,7 @@ const initialTab = tabs.find((it) => it.id === "edit");
 
 export function Editor() {
   const [currentTab, setCurrentTab] = useState<Tab | undefined>(initialTab);
+  const { darkMode } = useTheme();
 
   const handleTabChange = (newTab: Tab) => {
     setCurrentTab(currentTab === newTab ? undefined : newTab);
@@ -27,15 +32,17 @@ export function Editor() {
 
   return (
     <EditorStoreProvider projectId={""} loadingFallback={<>Loading ...</>}>
-      <main className="flex h-screen w-screen overflow-y-auto">
-        <VerticalTabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
-        <DynamicSplit
-          active={currentTab !== undefined}
-          dynamicPane={currentTab?.element}
-          orientation="vertical"
-          staticPane={<Visualizer />}
-        />
-      </main>
+      <div className={`${darkMode ? "dark" : ""} `}>
+        <main className="flex h-screen w-screen overflow-y-auto ">
+          <VerticalTabs tabs={tabs} onTabChange={handleTabChange} currentTab={currentTab} />
+          <DynamicSplit
+            active={currentTab !== undefined}
+            dynamicPane={currentTab?.element}
+            orientation="vertical"
+            staticPane={<Visualizer />}
+          />
+        </main>
+      </div>
     </EditorStoreProvider>
   );
 }

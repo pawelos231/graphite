@@ -38,7 +38,7 @@ export function GraphView({ verticesHighlights, edgesHighlights, graph }: GraphV
       isPanEnabled={isPanEnabled}
       zoomBounds={{ min: 0.5, max: 2 }}
       ref={svgRef}
-      className="h-full w-full"
+      className="h-full w-full bg-black"
       controls={({ zoom, setZoom, setCenter }) => (
         <Toolbar
           zoom={zoom}

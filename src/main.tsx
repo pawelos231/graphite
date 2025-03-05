@@ -4,7 +4,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Editor } from "./pages/editor/Editor";
 import "./index.css";
 import { BetaOverlay } from "./shared/BetaOverlay";
-import { DarkModeOverlay } from "./shared/DarkModeOverlay";
+import { ThemeProvider } from "./shared/ui/darkmode/theme-provider";
 
 const router = createBrowserRouter([
   {
@@ -15,8 +15,9 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <BetaOverlay />
-    <DarkModeOverlay />
-    <RouterProvider router={router} />
+    <ThemeProvider>
+      <BetaOverlay />
+      <RouterProvider router={router} />
+    </ThemeProvider>
   </React.StrictMode>
 );

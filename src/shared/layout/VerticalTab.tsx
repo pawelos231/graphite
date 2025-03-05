@@ -38,7 +38,7 @@ export function VerticalTabs({ tabs, currentTab, onTabChange }: VerticalTabsProp
   };
 
   return (
-    <div className="flex h-full w-12 flex-shrink-0 flex-col border-r border-r-slate-300 bg-slate-50">
+    <div className="flex h-full w-12 flex-shrink-0 flex-col border-r border-r-slate-300 bg-slate-50 dark:bg-slate-900">
       {tabs.map((tab) => (
         <TabIcon
           key={tab.id}

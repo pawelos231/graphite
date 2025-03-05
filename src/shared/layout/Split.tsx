@@ -110,7 +110,7 @@ export function DynamicSplit({
     <div
       ref={splitRef}
       className={cn(
-        "flex h-full w-full overflow-hidden",
+        "overflow-hiddenk flex h-full w-full",
         orientation === "horizontal" ? "flex-col" : "flex-row-reverse"
       )}
     >
