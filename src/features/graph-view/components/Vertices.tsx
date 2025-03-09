@@ -29,7 +29,7 @@ export function Vertices({ vertices, highlights, arrangement, onVertexMouseDown 
     return vertices.map((vertex) => {
       const vertexId = vertex.id;
       const { x, y } = arrangement[vertexId] ?? centerPosition;
-      const color = highlights?.get(vertexId);
+      const color = highlights?.get(vertexId) ?? undefined;
 
       return (
         <Vertex

@@ -34,7 +34,7 @@ export function ControlsButton({ icon, label = "", ...props }: ControlsButtonPro
     <Tooltip label={label} asChild>
       <button
         aria-label={label}
-        className="group flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-md border-none bg-transparent p-0 text-slate-800 transition-colors hover:bg-slate-100 disabled:cursor-auto disabled:text-slate-400"
+        className="group flex h-[30px] w-[30px] cursor-pointer items-center justify-center rounded-md border-none bg-transparent p-0 text-slate-800 transition-colors hover:bg-slate-100 disabled:cursor-auto disabled:text-slate-400 dark:text-slate-50 dark:hover:bg-slate-800 dark:disabled:text-slate-500"
         {...props}
       >
         {icon}

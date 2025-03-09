@@ -14,7 +14,6 @@ export const ThemeProvider = ({ children }: any) => {
   const [dark, setValue, removeValue] = useLocalStorage("dark", false);
 
   const toggleDarkMode = () => {
-    console.log("toggleDarkMode");
     setValue(!dark);
   };
 

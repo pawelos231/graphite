@@ -7,15 +7,17 @@ import { useEditorStore } from "../../pages/editor/context/editor";
 import { DiagnosticsSummary } from "./components/Diagnostics";
 import "./editor-styles.css";
 import { editorOnChange, useEditor } from "./hooks/useEditor";
+import { useTheme } from "~/shared/ui/darkmode/theme-provider";
 
 export function CodeEditor() {
   const { mode, setGraph } = useEditorStore(({ mode, setGraph }) => ({ mode, setGraph }));
   const [code, setCode] = useEditorStore((store) => [store.code, store.setCode]);
   const [errors, setErrors] = useState<Error[]>([]);
+  const { darkMode } = useTheme();
 
   const isEditorReadonly = mode.type === "SIMULATION";
 
-  const { view, ref } = useEditor<HTMLDivElement>(
+  const { view, ref, setTheme } = useEditor<HTMLDivElement>(
     [editorOnChange((value) => setCode(value))],
     isEditorReadonly
   );
@@ -55,6 +57,10 @@ export function CodeEditor() {
       else console.error("Unexpected error");
     }
   }, [setGraph, code]);
+
+  useEffect(() => {
+    setTheme(darkMode ? "dark" : "light");
+  }, [darkMode, setTheme]);
 
   const editorClassName = isEditorReadonly ? "h-full opacity-75 grayscale" : "h-full";
 

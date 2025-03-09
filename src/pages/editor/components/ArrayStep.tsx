@@ -84,7 +84,7 @@ export function ArrayStep({ state, visibleCells = 8 }: ArrayStepProps) {
 
   return (
     <div className="space-y-4 p-4">
-      <span className="font-md text-slate-800">{state.title}</span>
+      <span className="font-md text-slate-800 ">{state.title}</span>
       <div ref={scrollRef} className="no-scrollbar flex gap-1 overflow-x-scroll whitespace-nowrap">
         {Array.from({ length: visibleCells }).map((_, i) => {
           const element = state.data[i];
@@ -97,8 +97,11 @@ export function ArrayStep({ state, visibleCells = 8 }: ArrayStepProps) {
         })}
       </div>
       <div className="flex justify-between">
-        <button className="border border-slate-300 bg-slate-100 px-4 py-1" onClick={scrollLeft}>
-          <ArrowLeftIcon className="w-4" />
+        <button
+          className="dark: border border-slate-300 bg-slate-100 px-4 py-1 dark:bg-slate-800"
+          onClick={scrollLeft}
+        >
+          <ArrowLeftIcon className="w-4 dark:text-slate-100" />
         </button>
         <button className="border border-slate-300 bg-slate-100 px-4 py-1" onClick={scrollRight}>
           <ArrowRightIcon className="w-4" />

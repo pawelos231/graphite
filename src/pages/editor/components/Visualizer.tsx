@@ -66,7 +66,7 @@ export const Visualizer = () => {
           mode.type === "SIMULATION" && (
             <div className="flex h-full w-full min-w-[350px] flex-col">
               <Player
-                className="flex-shrink-0 border-b border-slate-300"
+                className="flex-shrink-0 border-b border-slate-300 dark:border-slate-800"
                 currentStep={currentStepIndex}
                 onStepChange={setCurrentStep}
                 numberOfSteps={mode.steps.length - 1}
@@ -75,10 +75,10 @@ export const Visualizer = () => {
                 }}
               />
               <div className="flex flex-col gap-1 p-4">
-                <span className="font-bold text-slate-800">
+                <span className="font-bold text-slate-800 dark:text-slate-200">
                   Step {currentStepIndex + 1} / {mode.steps.length}
                 </span>
-                <p className="text-slate-800">
+                <p className="text-slate-800 dark:text-slate-200">
                   {mode.steps[currentStepIndex] && mode.steps[currentStepIndex].description}
                 </p>
               </div>

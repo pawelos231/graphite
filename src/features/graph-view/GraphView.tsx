@@ -7,6 +7,7 @@ import { useGraphLayout } from "./hooks/useGraphLayout";
 import { useRef, useMemo } from "react";
 import { Toolbar } from "./components/Toolbar";
 import { Highlights } from "~/core/simulator/highlight";
+import { useTheme } from "~/shared/ui/darkmode/theme-provider";
 
 export type GraphViewProps = {
   verticesHighlights?: Highlights;
@@ -16,6 +17,7 @@ export type GraphViewProps = {
 
 export function GraphView({ verticesHighlights, edgesHighlights, graph }: GraphViewProps) {
   const svgRef = useRef<SVGSVGElement>(null);
+  const { darkMode } = useTheme();
 
   // prettier-ignore
   const { arrangement, vertexMouseDownHandler, areControlsEnabled: isPanEnabled } =
@@ -38,7 +40,7 @@ export function GraphView({ verticesHighlights, edgesHighlights, graph }: GraphV
       isPanEnabled={isPanEnabled}
       zoomBounds={{ min: 0.5, max: 2 }}
       ref={svgRef}
-      className="h-full w-full bg-black"
+      className="h-full w-full bg-white dark:bg-black"
       controls={({ zoom, setZoom, setCenter }) => (
         <Toolbar
           zoom={zoom}
@@ -57,8 +59,8 @@ export function GraphView({ verticesHighlights, edgesHighlights, graph }: GraphV
     >
       <defs>
         <radialGradient id="edgeLabelGradient">
-          <stop offset="0%" stopColor="#f9fafb" stopOpacity={1} />
-          <stop offset="100%" stopColor="#f9fafb" stopOpacity={0} />
+          <stop offset="0%" stopColor={`${!darkMode ? "#f9fafb" : "#000"}`} stopOpacity={1} />
+          <stop offset="100%" stopColor={`${!darkMode ? "#f9fafb" : "#111"}`} stopOpacity={0} />
         </radialGradient>
       </defs>
       <Edges

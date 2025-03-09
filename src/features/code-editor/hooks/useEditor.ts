@@ -45,6 +45,30 @@ const codeThemeLight = HighlightStyle.define([
   },
 ]);
 
+const codeThemeDark = HighlightStyle.define([
+  {
+    tag: [tags.variableName, tags.keyword],
+    color: colors.slate[100],
+  },
+  {
+    tag: [tags.variableName],
+    color: colors.sky[300],
+  },
+  {
+    tag: tags.number,
+    color: colors.sky[300],
+  },
+  {
+    tag: [tags.paren, tags.punctuation],
+    color: colors.slate[300],
+  },
+  {
+    tag: [tags.comment],
+    color: colors.slate[400],
+    fontWeight: 300,
+  },
+]);
+
 const editorThemeLight = EditorView.theme({
   "&": {
     backgroundColor: "#f9fafb",
@@ -54,7 +78,29 @@ const editorThemeLight = EditorView.theme({
     border: "none",
     backgroundColor: "#f9fafb",
   },
+  ".cm-cursor": {
+    borderLeftColor: "#000",
+    caretColor: "#000",
+  },
 });
+
+const editorThemeDark = EditorView.theme(
+  {
+    "&": {
+      backgroundColor: "#1a202c",
+      height: "100%",
+    },
+    ".cm-gutters": {
+      border: "none",
+      backgroundColor: "#1a202c",
+    },
+    ".cm-cursor": {
+      borderLeftColor: "#fff",
+      caretColor: "#fff",
+    },
+  },
+  { dark: true }
+);
 
 export function useEditor<T extends HTMLElement>(extensions: Extension[], readonly: boolean) {
   const ref = useRef<T>(null);
@@ -65,7 +111,12 @@ export function useEditor<T extends HTMLElement>(extensions: Extension[], readon
   useEffect(() => {
     if (!ref.current) return;
 
-    const view = new EditorView({
+    // Wstępny wybór motywu – np. możesz bazować na aktualnej wartości darkMode
+    const initialTheme = /* tutaj określ, czy startujemy w trybie "light" czy "dark" */ "light";
+    const initialCodeTheme = initialTheme === "light" ? codeThemeLight : codeThemeDark;
+    const initialEditorTheme = initialTheme === "light" ? editorThemeLight : editorThemeDark;
+
+    const viewInstance = new EditorView({
       state: EditorState.create({
         extensions: [
           keymap.of([{ key: "Ctrl-`", run: startCompletion }]),
@@ -77,7 +128,7 @@ export function useEditor<T extends HTMLElement>(extensions: Extension[], readon
             override: [
               function (context: CompletionContext) {
                 const word = context.matchBefore(/\w*/);
-                if (word?.from == word?.to && !context.explicit) return null;
+                if (word?.from === word?.to && !context.explicit) return null;
 
                 const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1);
                 const textBefore = context.state.sliceDoc(nodeBefore.from, context.pos);
@@ -97,8 +148,8 @@ export function useEditor<T extends HTMLElement>(extensions: Extension[], readon
             ],
           }),
           editorThemeCompartment.current.of([
-            editorThemeLight,
-            syntaxHighlighting(codeThemeLight, { fallback: true }),
+            initialEditorTheme,
+            syntaxHighlighting(initialCodeTheme, { fallback: true }),
           ]),
           editorReadonlyExtension(readonly),
           ...extensions,
@@ -107,15 +158,25 @@ export function useEditor<T extends HTMLElement>(extensions: Extension[], readon
       parent: ref.current,
     });
 
-    setView(view);
+    setView(viewInstance);
 
     return () => {
-      view.destroy();
+      viewInstance.destroy();
       setView(undefined);
     };
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ref]);
 
-  return { view, ref };
+  // Funkcja aktualizująca motyw edytora
+  function setTheme(theme: "light" | "dark") {
+    if (!view) return;
+    view.dispatch({
+      effects: editorThemeCompartment.current.reconfigure([
+        theme === "light" ? editorThemeLight : editorThemeDark,
+        syntaxHighlighting(theme === "light" ? codeThemeLight : codeThemeDark, { fallback: true }),
+      ]),
+    });
+  }
+
+  return { view, ref, setTheme };
 }

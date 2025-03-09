@@ -4,7 +4,7 @@ import { Graph } from "~/core/simulator/graph";
 import { Step } from "~/core/simulator/step";
 import { Project, ProjectMetadata } from "~/types/project";
 
-enum ModeType {
+export enum ModeType {
   IDLE = "IDLE",
   SIMULATION = "SIMULATION",
 }

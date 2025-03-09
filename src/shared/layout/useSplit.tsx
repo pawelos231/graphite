@@ -1,12 +1,5 @@
 import { useRef, useState, useEffect, useCallback } from "react";
-
-export type Orientation = "vertical" | "horizontal";
-
-export type SplitOptions = {
-  orientation: Orientation;
-  initialShare?: number;
-  reverse?: boolean;
-};
+import { SplitOptions } from "./model";
 
 export function useSplit<E extends HTMLElement>({
   orientation,

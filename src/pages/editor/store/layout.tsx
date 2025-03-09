@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { Orientation } from "~/shared/layout/useSplit";
+import { Orientation } from "~/shared/layout/model";
 
 export type LayoutSettings = {
   orientation: Orientation;

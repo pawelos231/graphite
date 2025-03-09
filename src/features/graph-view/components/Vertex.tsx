@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import colors from "tailwindcss/colors";
+import { useTheme } from "~/shared/ui/darkmode/theme-provider";
 import type { Color } from "~/types/color";
 
 export type VertexProps = {
@@ -12,6 +13,7 @@ export type VertexProps = {
 };
 
 export function Vertex({ cx, cy, value, onMouseDown, color }: VertexProps) {
+  const { darkMode } = useTheme();
   const ref = useRef<SVGGElement>(null);
 
   useEffect(() => {
@@ -30,9 +32,11 @@ export function Vertex({ cx, cy, value, onMouseDown, color }: VertexProps) {
     };
   }, [onMouseDown]);
 
-  const fillColor = color ? colors[color][200] : colors["slate"][100];
-  const strokeColor = color ? colors[color][500] : colors["slate"][300];
-  const textColor = colors[color ?? "slate"][900];
+  const baseColor = color ?? "slate";
+
+  const fillColor = colors[baseColor][darkMode ? 600 : 100];
+  const strokeColor = colors[baseColor][darkMode ? 500 : 100];
+  const textColor = colors[baseColor][darkMode ? 50 : 900];
 
   return (
     <g ref={ref} className="font-[JetBrains]">

@@ -36,9 +36,7 @@ export function SpaceshipButton({
               </div>
 
               {/* Glow */}
-              <div
-                className={`pointer-events-none absolute -z-20 h-full w-full overflow-hidden rounded-lg blur-lg`}
-              >
+              <div className="pointer-events-none absolute -z-20 h-full w-full overflow-hidden rounded-lg blur-lg">
                 <div
                   className={`absolute left-1/2 top-1/2 aspect-square w-[120%] -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-lg bg-cover ${styles.glow}`}
                 />
@@ -49,7 +47,10 @@ export function SpaceshipButton({
           {/* Button */}
           <button
             disabled={disabled}
-            className={`flex items-center gap-2 rounded-lg bg-transparent px-3 py-2 text-slate-800 transition-all ease-out enabled:hover:bg-slate-800 enabled:hover:text-white disabled:pointer-events-none disabled:bg-slate-300 disabled:opacity-60 disabled:shadow-sm`}
+            className={`flex items-center gap-2 rounded-lg bg-transparent px-3 py-2 text-slate-800 transition-all ease-out 
+                    enabled:hover:bg-slate-800 enabled:hover:text-white 
+                    disabled:pointer-events-none disabled:bg-slate-300 disabled:opacity-60 disabled:shadow-sm 
+                    dark:text-slate-50 dark:enabled:hover:bg-slate-800 dark:enabled:hover:text-white dark:disabled:bg-slate-700`}
             onClick={onClick}
           >
             {icon} {label}

@@ -6,6 +6,7 @@ import {
   ChevronDoubleRightIcon,
   ArrowLeftIcon,
 } from "@heroicons/react/24/outline";
+import { cn } from "~/lib/utils";
 import { useState, useCallback, useEffect } from "react";
 import { Controls, ControlsButton } from "~/shared/Controls";
 
@@ -73,7 +74,7 @@ export function Player({
   }, [settings, isAutoPlaying, nextStepHandler]);
 
   return (
-    <Controls className={className}>
+    <Controls className={cn("dark:bg-slate-800", className)}>
       <ControlsButton
         onClick={firstStepHandler}
         disabled={currentStep === 0}

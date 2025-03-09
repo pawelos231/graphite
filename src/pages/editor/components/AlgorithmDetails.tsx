@@ -13,6 +13,7 @@ import { Select } from "~/shared/ui/Select";
 import { SpaceshipButton } from "~/shared/ui/SpaceshipButton";
 import { useEditorStore } from "../context/editor";
 import ReactMarkdown from "react-markdown";
+import { ModeType } from "../store/editor";
 
 export interface AlgorithmDetails {
   algorithm: Algorithm<NonNullable<unknown>>;
@@ -32,7 +33,7 @@ export function AlgorithmDetails({ algorithm, onBack }: AlgorithmDetails) {
   });
 
   const handleBackClicked = () => {
-    setMode({ type: "IDLE" });
+    setMode({ type: ModeType.IDLE });
     setParamsValue({});
     onBack();
   };
@@ -46,31 +47,34 @@ export function AlgorithmDetails({ algorithm, onBack }: AlgorithmDetails) {
 
   const isParamValueValid = useMemo(() => {
     return validateAlgorithmParams(algorithm.params, paramsValue as Record<string, string>);
-  }, [paramsValue]);
+  }, [paramsValue, algorithm.params]);
 
   const loadSteps = () => {
     if (!isParamValueValid) return;
     const steps = algorithm.stepGenerator(graph, paramsValue);
-    setMode({ type: "SIMULATION", steps });
+    setMode({ type: ModeType.SIMULATION, steps });
   };
 
   const stopSimulation = () => {
-    setMode({ type: "IDLE" });
+    setMode({ type: ModeType.IDLE });
   };
 
   return (
-    <div className="flex h-full flex-col bg-slate-50">
-      <Controls alignment="start" className="border-b border-slate-300">
+    <div className="flex h-full flex-col bg-slate-50 dark:bg-slate-900">
+      <Controls
+        alignment="start"
+        className="border-b border-slate-300 dark:border-slate-600 dark:bg-slate-900"
+      >
         <ControlsButton
-          icon={<ArrowLeftIcon className="h-5 w-5" />}
+          icon={<ArrowLeftIcon className="h-5 w-5 " />}
           onClick={handleBackClicked}
           label="back"
         />
       </Controls>
-      <div className="relative flex flex-1 flex-col divide-y divide-slate-300">
+      <div className="relative flex flex-1 flex-col divide-y divide-slate-300 dark:divide-slate-700">
         <div className="flex flex-col gap-2 p-4">
-          <span className="font-medium text-slate-800">{algorithm.name}</span>
-          <p className="text-slate-600">{algorithm.description}</p>
+          <span className="font-medium text-slate-800 dark:text-slate-50">{algorithm.name}</span>
+          <p className="text-slate-600 dark:text-slate-300">{algorithm.description}</p>
         </div>
         <div className="flex flex-col gap-8 p-4">
           <div className="flex flex-col gap-2">
@@ -81,7 +85,7 @@ export function AlgorithmDetails({ algorithm, onBack }: AlgorithmDetails) {
               onChange={handleSetParamsValue}
             />
           </div>
-          <div className="flex justify-end bg-slate-50">
+          <div className="flex justify-end bg-slate-50 dark:bg-slate-900">
             {mode.type === "IDLE" ? (
               <SpaceshipButton
                 icon={<PlayIcon className="h-5 w-5" />}
@@ -100,7 +104,7 @@ export function AlgorithmDetails({ algorithm, onBack }: AlgorithmDetails) {
           </div>
         </div>
         <div>
-          <div className="prose prose-slate p-4">
+          <div className="prose prose-slate p-4 dark:prose-invert">
             <ReactMarkdown>{algorithm.guide}</ReactMarkdown>
           </div>
         </div>
@@ -140,7 +144,7 @@ function AlgorithmDetailParams<T extends object>(props: AlgorithmDetailParamsPro
     const paramDefinition = paramEntry[1] as AlgorithmParamDefinition<any>;
     return (
       <Fragment key={String(paramName)}>
-        <span className="text-slate-800">
+        <span className="bg:salmon-50 text-slate-800  dark:text-slate-50">
           {String(paramName)}
           {paramDefinition.required && <span className="text-blue-500">*</span>}
         </span>

@@ -1,6 +1,7 @@
 import { ReactNode, useEffect } from "react";
 import { cn } from "~/lib/utils";
-import { Orientation, useSplit } from "./useSplit";
+import { Orientation } from "./model";
+import { useSplit } from "./useSplit";
 
 const orientationToDimension = {
   vertical: "width",
@@ -131,7 +132,7 @@ export function DynamicSplit({
             onMouseDown={() => setIsResizing(true)}
           />
           <div
-            className="overflow-auto bg-slate-50"
+            className="overflow-auto bg-slate-50 dark:bg-slate-900"
             style={{
               [orientationToDimension[orientation]]: `${100 - share}%`,
             }}

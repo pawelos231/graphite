@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { Vec2 } from "../types/vec2";
 import type { Color } from "~/types/color";
 import colors from "tailwindcss/colors";
+import { useTheme } from "~/shared/ui/darkmode/theme-provider";
 
 type ArrowProps = {
   position: Vec2;
@@ -10,11 +11,12 @@ type ArrowProps = {
 };
 
 export function Arrow({ position, angle = 0, color = "slate" }: ArrowProps) {
+  const { darkMode } = useTheme();
   const path = useMemo(() => {
     return buildArrowPath(position, angle);
   }, [position, angle]);
 
-  const fill = colors[color][700];
+  const fill = colors[color][!darkMode ? 700 : 100];
 
   return <path className="transition-[fill]" d={path} style={{ fill }} />;
 }

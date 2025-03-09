@@ -5,6 +5,7 @@ import { cn } from "~/lib/utils";
 import type { Color } from "~/types/color";
 import { Vec2 } from "../types/vec2";
 import { Arrow } from "./Arrow";
+import { useTheme } from "~/shared/ui/darkmode/theme-provider";
 
 const vertexRadius = 19;
 
@@ -139,19 +140,16 @@ interface EdgeTextProps {
 }
 
 const EdgeLabel = (props: EdgeTextProps) => {
+  const { darkMode } = useTheme();
   const labelTextRef = useRef<SVGTextElement>(null);
   const { x, y } = props.position;
 
   return (
     <>
-      {/* prettier-ignore */}
-      <circle
-        cx={x}
-        cy={y}
-        r={16}
-        fill="url(#edgeLabelGradient)" />
+      <circle cx={x} cy={y} r={16} fill="url(#edgeLabelGradient)" />
       <text
         ref={labelTextRef}
+        fill={darkMode ? colors.slate[100] : colors.slate[900]}
         x={x}
         y={y}
         dominantBaseline="central"
