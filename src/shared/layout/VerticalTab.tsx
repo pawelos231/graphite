@@ -1,3 +1,4 @@
+// VerticalTabs.tsx
 import { Tab } from "./model";
 
 type TabIconProps = {
@@ -9,9 +10,8 @@ type TabIconProps = {
 function TabIcon({ tab, highlight, onClick }: TabIconProps) {
   return (
     <div
-      key={tab.id}
       className={`flex aspect-square w-full cursor-pointer items-center justify-center hover:bg-slate-100 dark:hover:bg-slate-800 ${
-        highlight && "bg-slate-100"
+        highlight ? "bg-slate-100" : ""
       }`}
       onClick={onClick}
     >
@@ -27,32 +27,26 @@ export type VerticalTabsProps = {
 };
 
 export function VerticalTabs({ tabs, currentTab, onTabChange }: VerticalTabsProps) {
-  const switchTab = (tab: Tab) => {
-    onTabChange(tab);
-  };
-
   return (
     <div className="flex h-full w-12 flex-shrink-0 flex-col border-r border-r-slate-300 bg-slate-50 dark:bg-slate-900">
       {tabs.map((tab) => {
-        if (tab.type === "ELEMENT") {
-          return (
-            <TabIcon
-              key={tab.id}
-              tab={tab}
-              highlight={currentTab === tab}
-              onClick={() => switchTab(tab)}
-            />
-          );
-        } else {
-          return (
-            <TabIcon
-              key={tab.id}
-              tab={tab}
-              highlight={currentTab === tab}
-              onClick={() => tab.func()}
-            />
-          );
-        }
+        // If the tab is an element type tab, we change the current tab to the new tab.
+        const handleClick = () => {
+          if (tab.type === "ELEMENT") {
+            onTabChange(tab);
+          } else {
+            tab.func();
+          }
+        };
+
+        return (
+          <TabIcon
+            key={tab.id}
+            tab={tab}
+            highlight={currentTab?.id === tab.id}
+            onClick={handleClick}
+          />
+        );
       })}
     </div>
   );
